@@ -26,6 +26,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <img src={require('./Ethereum_logo_2014.svg')}/>
         <form action="/login" method="post" id="form" hidden>
           <div>
             <input type="text" name="username" id="username"/><br/>
@@ -40,7 +41,6 @@ class App extends Component {
             <input type="submit" value="Submit" />
           </div>
         </form>
-        <p>Login with Ethereum</p>
       </div>
     );
   }
