@@ -18,7 +18,8 @@ const deserializeUser = (id, done) => {
   return done(null,{
     id: id, 
     name: id,
-    username: id
+    username: id,
+    picture: path.join(settings.url, id)
   })
 }
 
