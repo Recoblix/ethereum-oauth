@@ -1,5 +1,6 @@
 'use strict';
 
+const ENS = require('ethereum-ens');
 const passport = require('passport');
 const CustomStrategy= require('passport-custom').Strategy;
 const BasicStrategy = require('passport-http').BasicStrategy;
@@ -12,13 +13,26 @@ const settings = require('../settings');
 const db = settings.db;
 const web3 = settings.web3;
 
+const provider = web3.currentProvider
+provider.sendAsync = provider.send
+const ens = new ENS(provider);
+
 passport.serializeUser((user, done) =>  done(null, user.id));
 
-const deserializeUser = (id, done) => {
-  return done(null,{
-    id: id, 
-    name: id,
-    username: id
+const deserializeUser = (address, done) => {
+  ens.reverse(address).name().then((ensId) => {
+    ens.resolver(ensId).addr().then((resolvedAddr) => {
+      if(toChecksumAddress(resolvedAddr)!=toChecksumAddress(address)) throw "ENS misconfigured";
+      return done(null,{
+        id: ensId, 
+        name: toChecksumAddress(resolvedAddr),
+      })
+    })
+  }).catch((err) => {
+    return done(null,{
+      id: address, 
+      name: address,
+    })
   })
 }
 
