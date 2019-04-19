@@ -1,8 +1,10 @@
 'use strict';
 
-const clients = [
-  { id: '2', name: 'Samplr2', clientId: 'xyz123', clientSecret: 'ssh-password', callbackUrl: 'https://blockrecover.com/_oauth/ethereum', isTrusted: true },
-];
+const settings= require('../settings');
+
+const clients = settings.clients || [];
+
+
 
 module.exports.findById = (id, done) => {
   for (let i = 0, len = clients.length; i < len; i++) {

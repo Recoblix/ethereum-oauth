@@ -9,6 +9,7 @@ const errorHandler = require('errorhandler');
 const session = require('express-session');
 const passport = require('passport');
 const routes = require('./routes');
+const settings= require('./settings');
 const fs = require('fs');
 const https = require('https');
 
@@ -53,12 +54,8 @@ app.use('/',express.static(path.join(__dirname, './client/build')));
 
 app.listen(process.env.PORT || 3000);
 
-const options = {
-    cert: fs.readFileSync('/etc/letsencrypt/live/ethereum-oauth.net/fullchain.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/ethereum-oauth.net/privkey.pem')
-};
-
-https.createServer(options, app).listen(3443);
-
+if(settings.httpsOptions){
+  https.createServer(settings.httpsOptions, app).listen(3443);
+}
 // Required for @now/node, optional for @now/node-server.
 module.exports = app;
