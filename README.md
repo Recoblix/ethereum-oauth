@@ -14,14 +14,18 @@ cd ethereum-oauth
 npm i
 ```
 Setup ssl. I recommend using Certbot and Let's Encrypt. Follow the instructions at https://medium.com/@yash.kulshrestha/using-lets-encrypt-with-express-e069c7abe625 .
+
 Run your own ethereum node using geth or parity. 
+
 Check the settings. Use your own node that you set up, point the https settings at the correct files, and permit the clients you want to permit. Eventually there will be a way to use a longer term database than the in-memory one. Finally start the server with `npm start`.
 
 ## Setup the application
 
 ### Discourse
 Install the oauth plugin https://github.com/discourse/discourse-oauth2-basic
+
 Instructions for installing Discourse plugins is at https://meta.discourse.org/t/install-plugins-in-discourse/19157
+
 Enable oauth in admin/settings/login using the following settings:
 ```
 oauth2 client id : <client id>
