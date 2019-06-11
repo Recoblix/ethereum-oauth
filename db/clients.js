@@ -1,10 +1,11 @@
 'use strict';
 
-const settings= require('../settings');
+const clients = [];
 
-const clients = settings.clients || [];
-
-
+module.exports.save = (client, done) => {
+  Array.prototype.push.apply(clients,client);
+  done();
+};
 
 module.exports.findById = (id, done) => {
   for (let i = 0, len = clients.length; i < len; i++) {
