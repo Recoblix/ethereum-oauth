@@ -31,8 +31,8 @@
     "web3-utils": "^1.0.0-beta.48"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-config-airbnb-base": "^11.1.3",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.2.0"
   }
 }
