@@ -43,7 +43,7 @@ passport.use('web3', new CustomStrategy(
     db.challenges.find(req.body.challenge, (error, challenge) => {
       if(error) return done(error);
       if(req.body.username != challenge.username) return done(null,false);
-      const address = web3.eth.accounts.recover(req.body.challenge,req.body.password);
+      const address = web3.eth.accounts.recover(req.body.challenge,req.body.signature);
       if(toChecksumAddress(address)!=toChecksumAddress(challenge.username)) return done(null,false);
       return deserializeUser(challenge.username,done)
     });
