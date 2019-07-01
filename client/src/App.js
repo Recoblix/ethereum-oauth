@@ -30,9 +30,9 @@ class App extends Component {
     })
     const msg = await res.json()
     const signature = await web3.eth.personal.sign(msg.code, accounts[0]);
-    document.getElementById('username').account = accounts[0];
-    document.getElementById('signature').account = signature;
-    document.getElementById('challenge').account = msg.code;
+    document.getElementById('username').value = accounts[0];
+    document.getElementById('signature').value = signature;
+    document.getElementById('challenge').value = msg.code;
     document.getElementById('form').submit();
   }
 
