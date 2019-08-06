@@ -9,7 +9,7 @@ const errorHandler = require('errorhandler');
 const session = require('express-session');
 const passport = require('passport');
 const routes = require('./routes');
-const settings = require('./settings');
+const settings= require('./settings');
 const fs = require('fs');
 const https = require('https');
 
@@ -36,7 +36,6 @@ app.get('/account', routes.site.account);
 app.get('/success', routes.site.success);
 app.get('/fail', routes.site.fail);
 app.post('/challenge', routes.site.challenge);
-app.get('/blockies/:account', routes.blockies);
 
 app.get('/dialog/authorize', routes.oauth2.authorization);
 app.post('/dialog/authorize/decision', routes.oauth2.decision);
@@ -55,8 +54,8 @@ app.use('/',express.static(path.join(__dirname, './client/build')));
 
 app.listen(process.env.PORT || 3000);
 
-if(settings.https){
-  https.createServer(settings.https, app).listen(3443);
+if(settings.httpsOptions){
+  https.createServer(settings.httpsOptions, app).listen(3443);
 }
 // Required for @now/node, optional for @now/node-server.
 module.exports = app;

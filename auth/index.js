@@ -1,5 +1,6 @@
 'use strict';
 
+const ENS = require('ethereum-ens');
 const passport = require('passport');
 const CustomStrategy= require('passport-custom').Strategy;
 const BasicStrategy = require('passport-http').BasicStrategy;
@@ -12,14 +13,30 @@ const settings = require('../settings');
 const db = settings.db;
 const web3 = settings.web3;
 
+const provider = web3.currentProvider
+provider.sendAsync = provider.send
+const ens = new ENS(provider);
+
 passport.serializeUser((user, done) =>  done(null, user.id));
 
-const deserializeUser = (id, done) => {
-  return done(null,{
-    id: id, 
-    name: id,
-    username: id,
-    picture: path.join(settings.url, id)
+const deserializeUser = (address, done) => {
+  ens.reverse(address).name().then((ensId) => {
+    ens.resolver(ensId).addr().then((resolvedAddr) => {
+      if(toChecksumAddress(resolvedAddr)!=toChecksumAddress(address)) throw "ENS misconfigured";
+      return done(null,{
+        id: ensId, 
+        name: toChecksumAddress(resolvedAddr),
+        username: ensId,
+        picture: path.join(settings.url, ensId)
+      })
+    })
+  }).catch((err) => {
+    return done(null,{
+      id: address, 
+      name: address,
+      username: address,
+      picture: path.join(settings.url, address)
+    })
   })
 }
 
@@ -30,7 +47,7 @@ passport.use('web3', new CustomStrategy(
     db.challenges.find(req.body.challenge, (error, challenge) => {
       if(error) return done(error);
       if(req.body.username != challenge.username) return done(null,false);
-      const address = web3.eth.accounts.recover(req.body.challenge,req.body.password);
+      const address = web3.eth.accounts.recover(req.body.challenge,req.body.signature);
       if(toChecksumAddress(address)!=toChecksumAddress(challenge.username)) return done(null,false);
       return deserializeUser(challenge.username,done)
     });
