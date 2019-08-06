@@ -25,12 +25,14 @@ const deserializeUser = (address, done) => {
       if(toChecksumAddress(resolvedAddr)!=toChecksumAddress(address)) throw "ENS misconfigured";
       return done(null,{
         id: ensId, 
+        user_id: ensId, 
         name: toChecksumAddress(resolvedAddr),
       })
     })
   }).catch((err) => {
     return done(null,{
       id: address, 
+      user_id: address, 
       name: address,
     })
   })
