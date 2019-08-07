@@ -8,6 +8,7 @@ const ClientPasswordStrategy = require('passport-oauth2-client-password').Strate
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const Accounts = require('web3-eth-accounts');
 const { isAddress, toChecksumAddress } = require('web3-utils');
+const path = require('path');
 
 const settings = require('../settings');
 const db = settings.db;
@@ -19,19 +20,34 @@ const ens = new ENS(provider);
 
 passport.serializeUser((user, done) =>  done(null, user.id));
 
-const deserializeUser = (address, done) => {
+
+const getEnsName = (address,done) => {
   ens.reverse(address).name().then((ensId) => {
     ens.resolver(ensId).addr().then((resolvedAddr) => {
       if(toChecksumAddress(resolvedAddr)!=toChecksumAddress(address)) throw "ENS misconfigured";
       return done(null,{
-        id: ensId, 
-        name: toChecksumAddress(resolvedAddr),
+        name: ensId, 
+        address: toChecksumAddress(resolvedAddr),
       })
     })
   }).catch((err) => {
     return done(null,{
-      id: address, 
+      address: address,
       name: address,
+    })
+  })
+}
+
+const deserializeUser = (address, done) => {
+  getEnsName(address,(err,user) => {
+    return done(err,{
+      id: user.name,
+      user_id: user.name,
+      name: user.address,
+      username: user.name,
+      picture: path.join(settings.url,user.name),
+      email: user.name + settings.emailSuffix,
+      validated: true,
     })
   })
 }
