@@ -47,6 +47,7 @@ const deserializeUser = (address, done) => {
       username: user.name,
       picture: path.join(settings.url,user.name),
       email: user.name + settings.emailSuffix,
+      validated: true,
     })
   })
 }
