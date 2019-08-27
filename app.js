@@ -52,10 +52,10 @@ app.use('/',express.static(path.join(__dirname, './client/build')));
 // vs.
 // https://zeit.co/docs/v2/deployments/official-builders/node-js-now-node/
 
-app.listen(process.env.PORT || 3000);
+var server = app.listen(process.env.PORT || 3000);
 
 if(settings.httpsOptions){
   https.createServer(settings.httpsOptions, app).listen(3443);
 }
 // Required for @now/node, optional for @now/node-server.
-module.exports = app;
+module.exports = server;
