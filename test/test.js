@@ -7,12 +7,13 @@ const assert = require('assert');
 describe('Api tests', function() {
   var app;
 
-  beforeEach(function(){
+  before(function(){
     app=require('../app');
   });
 
-  afterEach(function() {
-    app.close();
+  after(function(done) {
+    app.close(done);
+    process.exit(0);
   });
 
   describe('login', function() {
