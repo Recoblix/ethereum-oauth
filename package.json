@@ -22,6 +22,7 @@
     "helmet": "^3.15.1",
     "json-stringify-safe": "^5.0.1",
     "mocha": "^6.2.0",
+    "mongodb": "^3.3.2",
     "oauth2orize": "^1.8.0",
     "passport": "^0.3.2",
     "passport-custom": "^1.0.5",

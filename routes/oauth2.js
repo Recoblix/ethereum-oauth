@@ -92,32 +92,7 @@ server.exchange(oauth2orize.exchange.code((client, code, redirectUri, done) => {
   });
 }));
 
-// Exchange user id and password for access tokens. The callback accepts the
-// `client`, which is exchanging the user's name and password from the
-// authorization request for verification. If these values are validated, the
-// application issues an access token on behalf of the user who authorized the code.
 
-server.exchange(oauth2orize.exchange.password((client, username, password, scope, done) => {
-  // Validate the client
-  db.clients.findByClientId(client.clientId, (error, localClient) => {
-    if (error) return done(error);
-    if (!localClient) return done(null, false);
-    if (localClient.clientSecret !== client.clientSecret) return done(null, false);
-    // Validate the user
-    db.users.findByUsername(username, (error, user) => {
-      if (error) return done(error);
-      if (!user) return done(null, false);
-      if (password !== user.password) return done(null, false);
-      // Everything validated, return the token
-      const token = utils.getUid(256);
-      db.accessTokens.save(token, user.id, client.clientId, (error) => {
-        if (error) return done(error);
-        // Call `done(err, accessToken, [refreshToken], [params])`, see oauth2orize.exchange.code
-        return done(null, token);
-      });
-    });
-  });
-}));
 
 // Exchange the client id and password/secret for an access token. The callback accepts the
 // `client`, which is exchanging the client's id and password/secret from the
