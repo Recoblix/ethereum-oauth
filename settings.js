@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('./db/memory');
 const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
 const url = "localhost"
