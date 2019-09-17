@@ -16,6 +16,13 @@ module.exports.loginForm = (request, response) => response.redirect('/#');
 
 module.exports.login = passport.authenticate('web3', { successReturnToOrRedirect: '/success', failureRedirect: '/fail' });
 
+module.exports.addclient = (request, response) => {
+  db.clients.save(request.body.client, (error, client) => {
+    if(error) return response.error(error);
+    return response.json(client);
+  });
+}
+
 module.exports.challenge = (request, response) => {
   const code = utils.getUid(16);
   db.challenges.save(code, request.body.account, (error) => {//validate input to prevent injection attacks

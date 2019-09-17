@@ -41,6 +41,7 @@ app.get('/dialog/authorize', routes.oauth2.authorization);
 app.post('/dialog/authorize/decision', routes.oauth2.decision);
 app.post('/oauth/token', routes.oauth2.token);
 
+app.post('/addclient', routes.site.addclient);
 app.get('/api/userinfo', routes.user.info);
 app.get('/api/clientinfo', routes.client.info);
 app.use('/',express.static(path.join(__dirname, './client/build')));
