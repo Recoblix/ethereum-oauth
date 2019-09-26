@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-import './App.css';
+import './index.css';
 import NoWeb3 from './NoWeb3';
 
-class App extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="Login">
         <div className="Ethereum-image">
           <img src={require('./Ethereum_logo_2014.svg')}/>
         </div>
@@ -71,4 +71,4 @@ class App extends Component {
   }
 }
  
-export default App;
+export default Login;

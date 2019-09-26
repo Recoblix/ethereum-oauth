@@ -1,0 +1,19 @@
+.Ethereum-image {
+  width: 256px;
+  text-align: center;
+  margin: 0 auto;
+  opacity: 0.5;
+}
+
+.Instructions {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.Account-name {
+  position: absolute;
+  top: 350px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

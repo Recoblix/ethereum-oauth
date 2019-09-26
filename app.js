@@ -29,7 +29,6 @@ app.use(require('helmet')());
 require('./auth');
 
 //app.get('/', routes.site.index);
-app.get('/login', routes.site.loginForm);
 app.post('/login', routes.site.login);
 app.get('/logout', routes.site.logout);
 app.get('/account', routes.site.account);
@@ -44,6 +43,9 @@ app.post('/oauth/token', routes.oauth2.token);
 app.post('/addclient', routes.site.addclient);
 app.get('/api/userinfo', routes.user.info);
 app.get('/api/clientinfo', routes.client.info);
+
+app.use('/dashboard',express.static(path.join(__dirname, './client/build')));
+app.use('/login',express.static(path.join(__dirname, './client/build')));
 app.use('/',express.static(path.join(__dirname, './client/build')));
 
 // Might have to comment out the line of code below for some serverless environments.

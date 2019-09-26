@@ -3,6 +3,7 @@
 const clients = {};
 
 module.exports.save = (client, done) => {
+  console.log(client)
   clients[client.clientId] = client;
   done();
 };
