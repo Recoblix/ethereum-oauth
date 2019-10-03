@@ -1,10 +1,13 @@
 'use strict';
 
+const ethUtil = require('ethereumjs-util');
+const { toChecksumAddress } = require('web3-utils');
 const passport = require('passport');
 const login = require('connect-ensure-login');
 const utils = require('../utils');
 const settings = require('../settings');
 const db = settings.db;
+const web3 = settings.web3;
 
 module.exports.index = (request, response) => response.send('OAuth 2.0 Server');
 
@@ -18,7 +21,26 @@ module.exports.login = passport.authenticate('web3', { successReturnToOrRedirect
 
 module.exports.addclient = (request, response) => {
   console.log(request.body)
-  db.clients.save(request.body, (error, client) => {
+  const challenge = utils.signTypedData({
+    ...utils.addClientMessage,
+    message: request.body.message,
+  })
+  console.log(challenge)
+  const signature = request.body.signature.substring(2);
+  const r = "0x" + signature.substring(0, 64);
+  const s = "0x" + signature.substring(64, 128);
+  const v = parseInt(signature.substring(128, 130), 16);
+  const address = "0x" + ethUtil.pubToAddress(ethUtil.ecrecover(challenge,v,r,s)).toString("hex")
+  console.log(toChecksumAddress(address))
+  console.log(toChecksumAddress(request.body.signer))
+  if(toChecksumAddress(address)!=toChecksumAddress(request.body.signer)) return done(null,false); //handle this better
+  db.clients.save({
+    name: request.body.message.name,
+    clientId: request.body.message.name + " - " + request.body.signer,
+    clientSecret: request.body.message.clientSecret,
+    callbackUrl: request.body.message.callbackUrl,
+    isTrusted: true,
+  }, (error, client) => {
     if(error) return response.error(error);
     return response.json(client);
   });

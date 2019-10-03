@@ -62,7 +62,7 @@ class Dashboard extends Component {
           "Content-Type": "application/json" 
         },
         body: JSON.stringify({
-          result: result.result,
+          signature: result.result,
           message,
           signer,
         })

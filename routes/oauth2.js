@@ -23,10 +23,10 @@ const server = oauth2orize.createServer();
 // simple matter of serializing the client's ID, and deserializing by finding
 // the client by ID from the database.
 
-server.serializeClient((client, done) => done(null, client.id));
+server.serializeClient((client, done) => done(null, client.clientId));
 
 server.deserializeClient((id, done) => {
-  db.clients.findById(id, (error, client) => {
+  db.clients.findByClientId(id, (error, client) => {
     if (error) return done(error);
     return done(null, client);
   });

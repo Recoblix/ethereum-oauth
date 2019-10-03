@@ -82,4 +82,4 @@ function signHash(typedData) {
     );
 }
 
-export default signHash;
+module.exports= signHash;
