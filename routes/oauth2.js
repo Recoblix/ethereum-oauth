@@ -133,7 +133,7 @@ server.exchange(oauth2orize.exchange.clientCredentials((client, scope, done) => 
 // first, and rendering the `dialog` view.
 
 module.exports.authorization = [
-  login.ensureLoggedIn("/#"),
+  login.ensureLoggedIn("/login"),
   server.authorization((clientId, redirectUri, done) => {
     db.clients.findByClientId(clientId, (error, client) => {
       if (error) return done(error);
@@ -167,7 +167,7 @@ module.exports.authorization = [
 // a response.
 
 module.exports.decision = [
-  login.ensureLoggedIn("/#"),
+  login.ensureLoggedIn("/login"),
   server.decision(),
 ];
 

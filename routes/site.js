@@ -15,7 +15,7 @@ module.exports.success= (request, response) => response.send('Logging in ... ');
 
 module.exports.fail = (request, response) => response.send('Login Failed');
 
-module.exports.loginForm = (request, response) => response.redirect('/#');
+module.exports.loginForm = (request, response) => response.redirect('/login');
 
 module.exports.login = passport.authenticate('web3', { successReturnToOrRedirect: '/success', failureRedirect: '/fail' });
 
