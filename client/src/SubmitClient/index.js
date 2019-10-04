@@ -82,15 +82,15 @@ class SubmitClient extends Component {
   render() {
     return (
       <div className="SubmitClient">
-        <form onSubmit={(event) => this.onSubmit(event)} id="form">
+        <form onSubmit={(event) => this.onSubmit(event)} id="form" class="form">
           <div class="header">Edit entry</div>
-          <label for="name" >name</label>
-          <input type="text" name="name" id="name"/>
-          <label for="clientSecret">Client Secret</label>
-          <input type="text" name="clientSecret" id="clientSecret"/>
-          <label for="callbackUrl">Callback Url</label>
-          <input type="text" name="callbackUrl" id="callbackUrl"/>
-          <input type="submit" value="Submit"/>
+          <label for="name" class="form-label">name</label>
+          <input type="text" name="name" id="name" class="submission-input"/>
+          <label for="clientSecret" class="form-label">Client Secret</label>
+          <input type="text" name="clientSecret" id="clientSecret" class="submission-input"/>
+          <label for="callbackUrl" class="form-label">Callback Url</label>
+          <input type="text" name="callbackUrl" id="callbackUrl" class="submission-input"/>
+          <input type="submit" value="Submit" class="submission-input"/>
         </form>
       </div>
     );

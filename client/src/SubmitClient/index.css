@@ -1,4 +1,4 @@
-form {
+.form {
   margin-left: auto;
   margin-right: auto;
   display: grid;
@@ -9,7 +9,7 @@ form {
   background: #FFFFFF;
 }
 
-label {
+.form-label {
     grid-column: 2 / 3;
 }
 
@@ -18,7 +18,6 @@ label {
   text-align: center;
 }
  
-input,
-button {
+.submission-input{
     grid-column: 3 / 4;
 }
