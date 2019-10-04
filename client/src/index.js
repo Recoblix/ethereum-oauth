@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Login from './Login';
+import Dashboard from './Dashboard';
 import './index.css';
-import { HashRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 ReactDOM.render(
-    <HashRouter>
-        <Route path="/" component={ App }/>
-    </HashRouter>, document.getElementById('root')
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login" component={ Login }/>
+        <Route path="/dashboard" component={ Dashboard }/>
+      </Switch>
+    </BrowserRouter>, document.getElementById('root')
 );
 

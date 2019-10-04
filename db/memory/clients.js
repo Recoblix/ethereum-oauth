@@ -1,22 +1,27 @@
 'use strict';
 
-const clients = [];
+const clients = {};
 
 module.exports.save = (client, done) => {
-  Array.prototype.push.apply(clients,client);
+  console.log(client)
+  clients[client.clientId] = client;
   done();
 };
 
-module.exports.findById = (id, done) => {
-  for (let i = 0, len = clients.length; i < len; i++) {
-    if (clients[i].id === id) return done(null, clients[i]);
-  }
+module.exports.findById = (clientId, done) => {
+  if (clients[clientId]) return done(null, clients[clientId]);
   return done(new Error('Client Not Found'));
 };
 
 module.exports.findByClientId = (clientId, done) => {
-  for (let i = 0, len = clients.length; i < len; i++) {
-    if (clients[i].clientId === clientId) return done(null, clients[i]);
-  }
+  if (clients[clientId]) return done(null, clients[clientId]);
   return done(new Error('Client Not Found'));
+};
+
+module.exports.findBySigner = (signer, done) => {
+  var signerClients = [];
+  for (const client in clients) {
+    if (clients[client].signer === signer) signerClients.push(clients[client]);
+  }
+  return done(null, signerClients);
 };

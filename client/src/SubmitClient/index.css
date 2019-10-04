@@ -1,0 +1,23 @@
+.form {
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  width: 600px;
+  grid-template-columns: 30px 200px auto 30px;
+  border-radius: 44px;
+  border: 5px solid #000000;
+  background: #FFFFFF;
+}
+
+.form-label {
+    grid-column: 2 / 3;
+}
+
+.header {
+  grid-column: 1/5;
+  text-align: center;
+}
+ 
+.submission-input{
+    grid-column: 3 / 4;
+}

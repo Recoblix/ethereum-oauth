@@ -20,7 +20,7 @@ module.exports.getUid = function(length) {
 };
 
 /**
- * Return a random int, used by `utils.getUid()`.
+ * Return a kind of random int, used by `utils.getUid()`. It doesn't need to be too unpredictable.
  *
  * @param {Number} min
  * @param {Number} max
@@ -29,4 +29,32 @@ module.exports.getUid = function(length) {
  */
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+module.exports.signTypedData = require('./sign-typed-data')
+
+
+const domain = [
+    { name: "name", type: "string" },
+    { name: "version", type: "string" },
+];
+
+const submission = [
+    { name: "name", type: "string" },
+    { name: "clientSecret", type: "string" },
+    { name: "callbackUrl", type: "string" },
+];
+
+const domainData = {
+    name: "Add new Contract",
+    version: "1",
+};
+
+module.exports.addClientMessage = {
+  types: {
+    EIP712Domain: domain,
+    Submission: submission,
+  },
+  domain: domainData,
+  primaryType: "Submission",
 }
