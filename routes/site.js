@@ -19,6 +19,15 @@ module.exports.loginForm = (request, response) => response.redirect('/login');
 
 module.exports.login = passport.authenticate('web3', { successReturnToOrRedirect: '/success', failureRedirect: '/fail' });
 
+module.exports.submittersclients = (request, response) => {
+  db.clients.findBySigner(request.body.account, (error, clients) => {
+    if(error) return response.error(error);
+    if(clients) clients.forEach(client => {client.clientSecret=undefined;})
+    return response.json(clients);
+  });
+}
+
+
 module.exports.addclient = (request, response) => {
   console.log(request.body)
   const challenge = utils.signTypedData({
@@ -31,14 +40,14 @@ module.exports.addclient = (request, response) => {
   const s = "0x" + signature.substring(64, 128);
   const v = parseInt(signature.substring(128, 130), 16);
   const address = "0x" + ethUtil.pubToAddress(ethUtil.ecrecover(challenge,v,r,s)).toString("hex")
-  console.log(toChecksumAddress(address))
-  console.log(toChecksumAddress(request.body.signer))
   if(toChecksumAddress(address)!=toChecksumAddress(request.body.signer)) return done(null,false); //handle this better
   db.clients.save({
     name: request.body.message.name,
+    id: request.body.message.name + " - " + request.body.signer,
     clientId: request.body.message.name + " - " + request.body.signer,
     clientSecret: request.body.message.clientSecret,
     callbackUrl: request.body.message.callbackUrl,
+    signer: request.body.signer,
     isTrusted: true,
   }, (error, client) => {
     if(error) return response.error(error);

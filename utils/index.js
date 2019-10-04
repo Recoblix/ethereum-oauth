@@ -41,7 +41,6 @@ const domain = [
 
 const submission = [
     { name: "name", type: "string" },
-    { name: "clientId", type: "string" },
     { name: "clientSecret", type: "string" },
     { name: "callbackUrl", type: "string" },
 ];

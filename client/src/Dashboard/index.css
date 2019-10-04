@@ -1,19 +1,37 @@
-.Ethereum-image {
-  width: 256px;
-  text-align: center;
-  margin: 0 auto;
-  opacity: 0.5;
+
+
+.list {
+  display: flex;
+  flex-direction: column;
 }
 
-.Instructions {
-  position: absolute;
-  top: 150px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.label {
+  border-bottom: 5px #000000;
 }
-.Account-name {
-  position: absolute;
-  top: 350px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+.line {
+  display: grid;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: 200px 600px 100px 500px 300px;
+}
+
+.name {
+  grid-column: 1/2;
+}
+
+.client-id {
+  grid-column: 2/3;
+}
+
+.client-secret {
+  grid-column: 3/4;
+}
+
+.callback-url {
+  grid-column: 4/5;
+}
+
+.edit {
+  grid-column: 5/6;
 }

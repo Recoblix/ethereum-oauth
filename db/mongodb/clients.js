@@ -29,3 +29,10 @@ module.exports.findByClientId = (clientId, done) => {
     return done(null,docs[0])
   });
 };
+
+module.exports.findBySigner = (signer, done) => {
+  collection.find({'signer':signer}).toArray(function(err,docs){
+    if(err) return done(err);
+    return done(null,docs)
+  });
+};
