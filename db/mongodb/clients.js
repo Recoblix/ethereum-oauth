@@ -8,7 +8,7 @@ module.exports.connect = (db) => {
 }
 
 module.exports.save = (client, done) => {
-  collection.update({' clientId' : client.clientId },
+  collection.update({'clientId' : client.clientId },
                     client,
                     { upsert : true},
                     done);
