@@ -29,30 +29,25 @@ module.exports.submittersclients = (request, response) => {
 
 
 module.exports.addclient = (request, response) => {
-  console.log(request.body)
   const challenge = utils.signTypedData({
     ...utils.addClientMessage,
     message: request.body.message,
   })
-  console.log(challenge)
-  const signature = request.body.signature.substring(2);
-  const r = "0x" + signature.substring(0, 64);
-  const s = "0x" + signature.substring(64, 128);
-  const v = parseInt(signature.substring(128, 130), 16);
-  const address = "0x" + ethUtil.pubToAddress(ethUtil.ecrecover(challenge,v,r,s)).toString("hex")
-  if(toChecksumAddress(address)!=toChecksumAddress(request.body.signer)) return done(null,false); //handle this better
-  db.clients.save({
-    name: request.body.message.name,
-    id: request.body.message.name + " - " + request.body.signer,
-    clientId: request.body.message.name + " - " + request.body.signer,
-    clientSecret: request.body.message.clientSecret,
-    callbackUrl: request.body.message.callbackUrl,
-    signer: request.body.signer,
-    isTrusted: true,
-  }, (error, client) => {
-    if(error) return response.error(error);
-    return response.json(client);
-  });
+  utils.isValidSignature(challenge,request.body.signature,request.body.signer).then((valid) => {
+    if(!valid) return response.error("Invalid Signature");
+    db.clients.save({
+      name: request.body.message.name,
+      id: request.body.message.name + " - " + request.body.signer,
+      clientId: request.body.message.name + " - " + request.body.signer,
+      clientSecret: request.body.message.clientSecret,
+      callbackUrl: request.body.message.callbackUrl,
+      signer: request.body.signer,
+      isTrusted: true,
+    }, (error, client) => {
+      if(error) return response.error(error);
+      return response.json(client);
+    });
+  })
 }
 
 module.exports.challenge = (request, response) => {
