@@ -1,5 +1,7 @@
 'use strict';
 
+module.exports.signTypedData = require('./sign-typed-data')
+module.exports.isValidSignature = require('./is-valid-signature')
 /**
  * Return a unique identifier with the given `len`.
  *
@@ -31,7 +33,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-module.exports.signTypedData = require('./sign-typed-data')
 
 
 const domain = [

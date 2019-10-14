@@ -10,6 +10,8 @@ const Accounts = require('web3-eth-accounts');
 const { isAddress, toChecksumAddress } = require('web3-utils');
 const path = require('path');
 
+const utils = require('../utils');
+const { hashPersonalMessage, toBuffer } = require('ethereumjs-util')
 const settings = require('../settings');
 const db = settings.db;
 const web3 = settings.web3;
@@ -59,9 +61,13 @@ passport.use('web3', new CustomStrategy(
     db.challenges.find(req.body.challenge, (error, challenge) => {
       if(error) return done(error);
       if(req.body.username != challenge.username) return done(null,false);
-      const address = web3.eth.accounts.recover(req.body.challenge,req.body.signature);
-      if(toChecksumAddress(address)!=toChecksumAddress(challenge.username)) return done(null,false);
-      return deserializeUser(challenge.username,done)
+      utils.isValidSignature(hashPersonalMessage(Buffer.from(req.body.challenge)),req.body.signature,challenge.username).then((valid) => {
+        if(valid){
+          return deserializeUser(challenge.username,done)
+        } else {
+          return done(null,false)
+        }
+      })
     });
   }
 ));
